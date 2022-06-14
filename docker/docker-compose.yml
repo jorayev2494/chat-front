@@ -1,0 +1,12 @@
+version: '3.9'
+services:
+  node:
+    build:
+      context: ./node
+      dockerfile: Dockerfile
+    container_name: job_front
+    tty: true
+    ports:
+      - 8001:8080
+    volumes:
+      - ../:/var/project
