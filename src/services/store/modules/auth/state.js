@@ -4,10 +4,10 @@ let accessToken = window.localStorage.getItem(keyAccessToken);
 let refreshToken = window.localStorage.getItem(keyRefreshToken);
 let isAuth = (typeof(accessToken) === 'string');
 
-export default () => ({
+export default {
     isAuth,
     keyAccessToken,
     keyRefreshToken,
     accessToken,
     refreshToken
-});
+};

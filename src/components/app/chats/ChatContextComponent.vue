@@ -10,8 +10,9 @@
                 <!-- start chat conversation -->
 
                 <div class="chat-conversation p-3 p-lg-4 " id="chat-conversation" data-simplebar>
-                    <ul class="list-unstyled chat-conversation-list" id="users-conversation">        
-                        <min-message-component v-for="(msg, idx) in currentMessages" :key="idx" :message="msg"></min-message-component>
+                    <ul ref="chat-list" class="list-unstyled chat-conversation-list" id="users-conversation">        
+                        <a href="#" @click.prevent="scrollToElement()">Test click</a>
+                        <MessageComponent v-for="(msg, idx) in currentMessages" :key="idx" :message="msg"></MessageComponent>
                     </ul>
                 </div>
 
@@ -128,12 +129,24 @@
                                             <i class='bx bx-dots-vertical-rounded'></i>
                                         </button>
                                         <div class="dropdown-menu dropdown-menu-end">
-                                            <a class="dropdown-item d-flex justify-content-between align-items-center d-lg-none user-profile-show" href="#">View Profile <i class="bx bx-user text-muted"></i></a>
-                                            <a class="dropdown-item d-flex justify-content-between align-items-center d-lg-none" href="#" data-bs-toggle="modal" data-bs-target=".audiocallModal">Audio <i class="bx bxs-phone-call text-muted"></i></a>
-                                            <a class="dropdown-item d-flex justify-content-between align-items-center d-lg-none" href="#" data-bs-toggle="modal" data-bs-target=".videocallModal">Video <i class="bx bx-video text-muted"></i></a>
-                                            <a class="dropdown-item d-flex justify-content-between align-items-center" href="#">Archive <i class="bx bx-archive text-muted"></i></a>
-                                            <a class="dropdown-item d-flex justify-content-between align-items-center" href="#">Muted <i class="bx bx-microphone-off text-muted"></i></a>
-                                            <a class="dropdown-item d-flex justify-content-between align-items-center" href="#">Delete <i class="bx bx-trash text-muted"></i></a>
+                                            <a class="dropdown-item d-flex justify-content-between align-items-center d-lg-none user-profile-show" href="#">
+                                                View Profile <i class="bx bx-user text-muted"></i>
+                                            </a>
+                                            <a class="dropdown-item d-flex justify-content-between align-items-center d-lg-none" href="#" data-bs-toggle="modal" data-bs-target=".audiocallModal">
+                                                Audio <i class="bx bxs-phone-call text-muted"></i>
+                                            </a>
+                                            <a class="dropdown-item d-flex justify-content-between align-items-center d-lg-none" href="#" data-bs-toggle="modal" data-bs-target=".videocallModal">
+                                                Video <i class="bx bx-video text-muted"></i>
+                                            </a>
+                                            <a class="dropdown-item d-flex justify-content-between align-items-center" href="#">
+                                                Archive <i class="bx bx-archive text-muted"></i>
+                                            </a>
+                                            <a class="dropdown-item d-flex justify-content-between align-items-center" href="#">
+                                                Muted <i class="bx bx-microphone-off text-muted"></i>
+                                            </a>
+                                            <a class="dropdown-item d-flex justify-content-between align-items-center" href="#">
+                                                Delete <i class="bx bx-trash text-muted"></i>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -141,7 +154,9 @@
                         </div>
                         <div class="mt-auto p-3">
                             <h5 class="user-name mb-1 text-truncate">Bella Cote</h5>
-                            <p class="font-size-14 text-truncate mb-0"><i class="bx bxs-circle font-size-10 text-success me-1 ms-0"></i> Online</p>
+                            <p class="font-size-14 text-truncate mb-0">
+                                <i class="bx bxs-circle font-size-10 text-success me-1 ms-0"></i> Online
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -203,9 +218,15 @@
                                     </button>
                 
                                     <div class="dropdown-menu dropdown-menu-end">
-                                        <a class="dropdown-item d-flex justify-content-between align-items-center" href="#">Archive <i class="bx bx-archive text-muted"></i></a>
-                                        <a class="dropdown-item d-flex justify-content-between align-items-center" href="#">Muted <i class="bx bx-microphone-off text-muted"></i></a>
-                                        <a class="dropdown-item d-flex justify-content-between align-items-center" href="#">Delete <i class="bx bx-trash text-muted"></i></a>
+                                        <a class="dropdown-item d-flex justify-content-between align-items-center" href="#">
+                                            Archive <i class="bx bx-archive text-muted"></i>
+                                        </a>
+                                        <a class="dropdown-item d-flex justify-content-between align-items-center" href="#">
+                                            Muted <i class="bx bx-microphone-off text-muted"></i>
+                                        </a>
+                                        <a class="dropdown-item d-flex justify-content-between align-items-center" href="#">
+                                            Delete <i class="bx bx-trash text-muted"></i>
+                                        </a>
                                     </div>
                                 </div>
                                 <h5 class="font-size-11 text-uppercase text-muted mt-2">More</h5>
@@ -480,7 +501,7 @@
     import { mapGetters } from 'vuex';
     import ChatHeadComponent from './partials/ChatHeadComponent.vue';
     import ChatFormComponent from './partials/ChatFormComponent.vue'
-    import MinMessageComponent from './MinMessageComponent.vue';
+    import MessageComponent from './messages/MessageComponent.vue';
 
     export default {
         name: 'ChatContentComponent',
@@ -490,7 +511,13 @@
             }
         },
         methods: {
-            
+            scrollToElement: function () {
+                let el = this.$refs['chat-list'];
+                if (el) {
+                    // Use el.scrollIntoView() to instantly scroll to the element
+                    el.scrollIntoView({ behavior: "smooth", block: "end" });
+                }
+            }
         },
         computed: {
             ...mapGetters({
@@ -500,9 +527,22 @@
         },
         components: {
             ChatHeadComponent,
-            MinMessageComponent,
+            MessageComponent,
             ChatFormComponent,
-        }
+        },
+        created() {        
+            this.chatsUnsubscribe = this.$store.subscribe((mutation) => {
+                if (mutation.type === 'chats/pushCurrentMessages') {
+                    this.scrollToElement();
+                }
+            });
+        },
+        mounted() {
+            this.scrollToElement();
+        },
+        unmounted() {
+            this.chatsUnsubscribe();
+        }  
     }
 </script>
 

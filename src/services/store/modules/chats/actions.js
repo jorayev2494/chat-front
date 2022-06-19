@@ -36,3 +36,16 @@ export async function sendMessageAsync({ commit }, payload) {
         });
     })
 }
+
+export async function deleteMessageAsync({ commit }, payload) {
+    await new Promise((resolve, reject) => {
+        window.axios.delete(`/chats/${payload}`).then((response) => {
+            commit('deleteCurrentMessage', payload);
+            window.console.log('deleteMessageAsync response: ', response);
+
+            return resolve(true);
+        }).catch((err) => {
+            return reject(err);
+        });
+    })
+}

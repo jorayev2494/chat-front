@@ -52,8 +52,8 @@
                     </div>
                 </div>
 
-                <div class="chat-message-list chat-bookmark-list" data-simplebar>
-                    <ul class="list-unstyled chat-list">
+                <div class="chat-message-list" data-simplebar>
+                    <ul class="list-unstyled chat-list chat-user-list">
                         <ChatPanelComponent v-for="(chat, idx) in chats" :key="idx" :chat="chat" :loadChat="loadChat"></ChatPanelComponent>
                     </ul>
                 </div>
@@ -314,17 +314,17 @@ export default {
     name: 'ChatTabPanelComponent',
     data() {
         return {
-            // chats: []
+            
         }
     },
     methods: {
         loadChatAsync: async function () {
             await this.$store.dispatch('chats/loadChatsAsync');
         },
-        loadChat: async function(chat) {
+        loadChat: async function (chat) {
             this.$store.commit('chats/setCurrentChat', chat);
             await this.$store.dispatch('chats/loadChat', chat.id);
-        },
+        }
     },
     computed: {
         ...mapGetters({
@@ -336,19 +336,26 @@ export default {
     components: {
         ChatPanelComponent
     },
-    mounted() {
-        this.loadChatAsync();
-    },
     watch: {
         chats: function (newVal) {
-            if (this.currentChat === null) {
-                this.loadChat(newVal.shift());
+            if (this.currentChat === null && newVal.length) {
+                this.loadChat(newVal[0]);   
             }
 
             // if (this.currentMessages === null) {
             //     this.loadChat(newVal.shift().id);
             // }
         }
+    },
+    mounted() {
+        this.loadChatAsync();
+        console.log(`${this.name} - mounted`);
+        // console.log('loadChatAsync WS mounted: ', this.currentChat);
+        // window.Echo.channel(`chat.${this.currentChat?.id}`)
+        //             .listen('.chat', (event) => {
+        //                 this.$store.commit('chats/pushCurrentMessages', event.message)
+        //                 window.console.log("WebSocket: ", event);
+        //             })
     }
 }
 </script>

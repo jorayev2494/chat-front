@@ -202,9 +202,8 @@
 
                 this.previewMedias = [];
 
-                await this.$store.dispatch('chats/sendMessageAsync', messageFormData).then((response) => {
-                    window.console.log('response: ', response);
-                    this.setNullMessage();
+                await this.$store.dispatch('chats/sendMessageAsync', messageFormData).then(() => {
+                    this.clearMessage();
                 }).catch((err) => {
                     window.console.log('err: ', err);
                 });
@@ -216,7 +215,7 @@
                     this.message[`medias[${idx}]`] = media;
                 });
             },
-            setNullMessage() {
+            clearMessage() {
                 this.message = {};
             }
         },

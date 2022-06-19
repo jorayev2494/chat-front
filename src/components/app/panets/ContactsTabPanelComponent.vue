@@ -1,5 +1,5 @@
 <template>
-    <div class="tab-pane" id="pills-contacts" role="tabpanel" aria-labelledby="pills-contacts-tab">
+    <div class="tab-pane show active" id="pills-contacts" role="tabpanel" aria-labelledby="pills-contacts-tab">
         <!-- Start Contact content -->
         <div>
             <div class="px-4 pt-4">
