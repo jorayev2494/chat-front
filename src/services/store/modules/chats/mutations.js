@@ -13,3 +13,7 @@ export function setCurrentMessages(state, payload) {
 export function pushCurrentMessages(state, payload) {
     state.currentMessages.push(payload);
 }
+
+export function deleteCurrentMessage(state, payload) {
+    state.currentMessages = state.currentMessages.filter(msg =>  msg.id != payload);
+}

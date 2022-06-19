@@ -11,13 +11,30 @@ export async function loginAsync({ commit }, payload) {
     });
 }
 
-export async function logout({ commit }) {
-    await window.axios.post('/oauth/logout').then((response) => {
-        if (response.status == 202) {
+export async function logoutAsync({ commit }) {
+    await new Promise((resolve, reject) => {
+        try {
             commit('setIsAuth', false);
             commit('setAccessToken', null);
+            commit('setRefreshToken', null);
             commit('profile/setProfile', null, { root: true });
+            
+            return resolve();
+        } catch (error) {
+            return reject(false);
         }
+
+        // window.axios.post('/oauth/logout').then((response) => {
+        //     if (response.status == 202) {
+        //         commit('setIsAuth', false);
+        //         commit('setAccessToken', null);
+        //         commit('profile/setProfile', null, { root: true });
+        //     }
+
+        //     return resolve(true);
+        // }).catch(() => {
+        //     return reject(false);
+        // })
     });
 }
 
