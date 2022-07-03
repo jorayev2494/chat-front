@@ -1,6 +1,6 @@
 let authData = {
     client_id: 1,
-    client_secret: 'GtJOz71iEJnw1Vwt9ukozz2akllNtTu3pMOHvMQH'
+    client_secret: '2i4NMGIqvuzd3Tw62fA1TmSBjIuGEBaHtHMxomGJ'
 };
 
 export async function loginAsync({ commit }, payload) {

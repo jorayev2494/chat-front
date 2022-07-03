@@ -1,5 +1,5 @@
 export function getChats(state) {
-    return state.chats.map((chat) => {
+    return state.chats?.map((chat) => {
         if (chat.type === 'chat') {
             let authUserId = 1;
             let findToUser = chat.members.find(u => u.id !== authUserId);    

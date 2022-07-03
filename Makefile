@@ -22,5 +22,8 @@ down:
 npmi:
 	@docker-compose --file ${DOCKER_COMPOSE_FILE} exec node npm i
 
+ss:
+	@make sstart
+
 sstart:
 	@docker-compose --file ${DOCKER_COMPOSE_FILE} exec node npm run serve

@@ -7,7 +7,7 @@
             <div class="user-chat-content">
                 <div class="ctext-wrap">
                     <div class="ctext-wrap-content">
-                        <p class="mb-3 ctext-content">{{ message.text }}</p>
+                        <p class="mb-3 ctext-content">{{ message.id }}) {{ message.text }}</p>
                         <view-media-component v-if="message.medias" :medias="message.medias" class="mb-2"></view-media-component>
                     </div>
                     <MessageDropdown :message="message"></MessageDropdown>
@@ -39,7 +39,9 @@ export default {
         }
     },
     methods: {
-        isMyMessage: (message) =>  message.user_id === 1,
+        isMyMessage: function(message) {
+            return message.user.id == this.$store.getters['profile/getProfile']?.id
+        },
     },
     components: {
         ViewMediaComponent,
