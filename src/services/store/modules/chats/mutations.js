@@ -26,3 +26,19 @@ export function updateCurrentMessage(state, payload) {
 export function deleteCurrentMessage(state, payload) {
     state.currentMessages = state.currentMessages.filter(msg =>  msg.id != payload.id);
 }
+
+export function makeMessageSee(state, payload) {
+    // console.log('makeMessageSee payload', payload);
+    state.currentMessages.map((msg) => {
+        console.log('makeMessageSee is_seen', msg.is_seen, msg, payload);
+        if (msg.id === payload.message_id) {
+            msg.is_seen = payload.is_seen;
+        }
+    });
+}
+
+export function unshiftChat(state, payload) {
+    state.chats.unshift(payload);
+    // console.log('unshiftChat', temp, [payload, ...state.chats]);
+    // state.chats = temp;
+}

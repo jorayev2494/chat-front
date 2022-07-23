@@ -10,8 +10,8 @@
                 </div>
                 <form action="#" @submit.prevent="loginAsync($event)">
                     <div class="mb-3">
-                        <label for="username" class="form-label">Username</label>
-                        <input type="email" class="form-control" id="username" v-model="login.username" placeholder="Enter Email" required>
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" v-model="login.email" placeholder="Enter Email" required>
                     </div>
                     
                     <div class="mb-3">
@@ -78,8 +78,8 @@
             return {
                 isShowPassword: false,
                 login: {
-                    username: 'admin@gmail.com',
-                    password: 'password'
+                    email: 'admin@gmail.com',
+                    password: '12345!Secret_'
                 }
             }
         },

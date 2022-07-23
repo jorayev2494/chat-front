@@ -1023,7 +1023,6 @@
         },
         methods: {
             checkTabPanel: function (componentName) {
-                window.console.log('componentName: ', componentName);
                 this.componentName = componentName;
             }
         },

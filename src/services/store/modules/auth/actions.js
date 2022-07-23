@@ -1,10 +1,11 @@
-let authData = {
-    client_id: 1,
-    client_secret: '2i4NMGIqvuzd3Tw62fA1TmSBjIuGEBaHtHMxomGJ'
+// let MDI = new MediaDeviceInfo();
+
+let data = {
+    device_id: 'MDI.deviceId'
 };
 
 export async function loginAsync({ commit }, payload) {
-    await window.axios.post('/oauth/token', { grant_type: 'password', ...authData, ...payload }).then((response) => {
+    await window.axios.post('/auth/login', {...data, ...payload}).then((response) => {
         commit('setIsAuth', true);
         commit('setAccessToken', response.data.access_token);
         commit('setRefreshToken', response.data.refresh_token);

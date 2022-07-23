@@ -8,14 +8,12 @@
                 <!-- end chat user head -->
 
                 <!-- start chat conversation -->
-
                 <div class="chat-conversation p-3 p-lg-4 " id="chat-conversation" data-simplebar>
                     <ul ref="chat-list" class="list-unstyled chat-conversation-list" id="users-conversation">        
                         <a href="#" @click.prevent="scrollToElement()">Test click</a>
                         <MessageComponent v-for="(msg, idx) in currentMessages" :key="idx" :message="msg"></MessageComponent>
                     </ul>
                 </div>
-
                 <!-- end chat conversation end -->
             </div>
 
@@ -507,7 +505,7 @@
         name: 'ChatContentComponent',
         data() {
             return {
-                
+                wsConnection: null
             }
         },
         methods: {
@@ -530,6 +528,20 @@
             MessageComponent,
             ChatFormComponent,
         },
+        watch: {
+            currentChat: function (newValue, oldValue) {
+                console.log('newValue newValue', newValue);
+                window.Echo.private(`chat.messages_see.${newValue.id}`)
+                        .listen('.message_see.updated', event => {
+                            window.console.log('message_see.updated', event);
+                            this.$store.commit('chats/makeMessageSee', event.message_see);
+                        });
+
+                if (oldValue) {
+                    console.log('oldValue oldValue', oldValue);
+                }
+            }
+        },
         created() {        
             this.chatsUnsubscribe = this.$store.subscribe((mutation) => {
                 if (mutation.type === 'chats/pushCurrentMessages') {
@@ -538,10 +550,13 @@
             });
         },
         mounted() {
-            this.scrollToElement();
+            
+            setTimeout(this.scrollToElement(), 100);
         },
         unmounted() {
             this.chatsUnsubscribe();
+            window.Echo.private(`chat.messages_see.${this.currentChat.id}`)
+                        .leave(() => {});
         }  
     }
 </script>

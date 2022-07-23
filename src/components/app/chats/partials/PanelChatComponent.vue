@@ -48,7 +48,7 @@
                     <p class="text-truncate mb-0">{{ chat.id }} | {{ chat.toUser.full_name }}</p>
                 </div>
                 <div class="ms-auto">
-                    <span class="badge badge-soft-dark rounded p-1">18</span>
+                    <span class="badge badge-soft-dark rounded p-1">{{ chat.messages_unseen_count }}</span>
                 </div>
             </div>
         </a>
@@ -71,13 +71,13 @@ export default {
         }
     },
     methods: {
-        getLastPreviewMessage(messages) {
-            if (messages.length > 0) {
-                return messages[0].text ?? 'No message text...';
-            }
+        // getLastPreviewMessage(messages) {
+        //     if (messages.length > 0) {
+        //         return messages[0].text ?? 'No message text...';
+        //     }
 
-            return 'No message ...';
-        }
+        //     return 'No message ...';
+        // }
     },
     computed: {
         ...mapGetters({
