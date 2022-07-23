@@ -180,6 +180,7 @@
         name: 'ChatFormComponent',
         data() {
             return {
+                wsEvent: null,
                 message: {
                     text: null,
                 },
@@ -188,6 +189,10 @@
         },
         methods: {
             sendMessageAsync: async function () {
+                // this.sendMessage();
+
+                // return;
+                
                 this.message.chat_id = this.currentChat.id;
 
                 let messageFormData = new FormData();
@@ -217,6 +222,17 @@
             },
             clearMessage() {
                 this.message = {};
+            },
+            sendMessage: function () {
+                this.message.chat_id = this.currentChat.id;
+                console.info('sendMessage: ', this.wsConnection, 'message: ', this.message);
+                let wsData = {
+                    event: this.wsEvent,
+                    data: this.message
+                };
+                this.wsConnection.send(JSON.stringify(wsData));
+                console.log('wsData sendMessage: ', JSON.stringify(wsData));
+                this.clearMessage();
             }
         },
         computed: {
@@ -227,7 +243,29 @@
         },
         components: {
             MediaPreviewComponent
-        }
+        },
+        created() {            
+            this.wsConnection = new WebSocket('ws://127.0.0.1:6001/my-websocket?appKey=laravel_rdb', [], {
+                headers: {
+                    // ['Set-Cookie']: cookie,
+                    'Authentication': `Bearer ${this.$store.getters['auth/getAccessToken']}`
+                },
+            });
+
+            this.wsConnection.onopen = event => {
+                console.info('ws onOpen:', event);
+                console.info('ws onOpen:', this.wsConnection);
+            }
+        },
+        mounted() {
+            this.wsConnection.onmessage = (event) => {
+                let wsEventData = JSON.parse(event.data);
+                console.info('ws onMessage', event);
+                console.info('ws onMessage data: ', wsEventData.event);
+                this.wsEvent = wsEventData.event;
+                console.info('mounted ws onMessage data: ', this.$data);
+            }
+        },
     }
 </script>
 

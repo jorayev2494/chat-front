@@ -6,4 +6,4 @@ WORKDIR /var/project
 
 RUN chmod 777 -R ./
 
-# CMD [ "npm run serve" ]
+CMD [ "npm", "run", "serve" ]

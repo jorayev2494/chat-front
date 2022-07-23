@@ -330,7 +330,8 @@ export default {
         ...mapGetters({
             chats: 'chats/getChats',
             currentChat: 'chats/getCurrentChat',
-            currentMessages: 'chats/getCurrentMessages'
+            currentMessages: 'chats/getCurrentMessages',
+            profile: 'profile/getProfile'
         })
     },
     components: {
@@ -356,6 +357,13 @@ export default {
         //                 this.$store.commit('chats/pushCurrentMessages', event.message)
         //                 window.console.log("WebSocket: ", event);
         //             })
+
+        window.console.log('watch auth user !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', this.profile);
+        window.Echo.private(`chat_user.${this.profile.id}`)
+                    .listen('.chat_user.created', event => {
+                        window.console.log('chat_user chat_user chat_user', event);
+                        this.$store.commit('chats/unshiftChat', event.chat_user);
+                    });
     }
 }
 </script>

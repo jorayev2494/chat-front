@@ -16,8 +16,10 @@
                     <small class="text-muted time">
                         {{ message.created_at }}
                     </small>
-                    <span class="text-success check-message-icon">
-                        <i class="bx bx-check"></i>
+                    <span class="text-success check-message-icon" style="font-size: 20px;">
+                        <!-- https://boxicons.com/?query=check -->
+                        <i v-if="message.is_seen" class="bx bx-check-double"></i>
+                        <i v-else class="bx bx-check"></i>
                     </span>
                 </div>
             </div>

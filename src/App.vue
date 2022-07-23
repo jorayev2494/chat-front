@@ -55,7 +55,7 @@ export default {
                 //                 }
                 //             });
 
-                window.Echo.private(`chat.${chat.id}`).leave(".message.sent", (event) => {
+                window.Echo.private(`chat.${chat.id}`).leave('.message.sent', (event) => {
                     window.console.log("Private channel: ", event);
                 });
             });
